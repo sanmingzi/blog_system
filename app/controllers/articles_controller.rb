@@ -23,6 +23,9 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
+    @article = Article.find(params[:id])
+    @article.update(status: false)
+    redirect_to articles_path
   end
 
   private
