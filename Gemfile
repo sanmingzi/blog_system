@@ -40,6 +40,9 @@ gem 'bootsnap', '>= 1.1.0', require: false
 # Authentication https://github.com/plataformatec/devise
 gem 'devise', '4.7.1'
 
+# Authorization https://github.com/varvet/pundit
+gem "pundit", '2.1.0'
+
 gem 'bootstrap-sass', '3.4.1'
 
 group :development, :test do
