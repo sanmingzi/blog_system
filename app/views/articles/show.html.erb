@@ -1,17 +1,13 @@
-<p>
-  <strong>Title:</strong>
-  <%= @article.title %>
-</p>
- 
-<p>
-  <strong>Text:</strong>
-  <%= @article.text %>
-</p>
+<div class="col-sm-11 col-xs-12 blog-center">
+  <h2 class="text-center"><%= @article.title %></h2>
+  <h5 class="text-center"><%= @article.created_at.strftime('%b %d, %Y') %></h5>
+  <div><%= raw(@article.text) %></div>
+</div>
 
-<h2>Comments</h2>
-<%= render 'comments/comments' %>
+<div>
+  <h2>Comments</h2>
+  <%= render 'comments/comments' %>
 
-<h2>Add a comment:</h2>
-<%= render 'comments/form' %>
-
-<%= link_to 'Back', articles_path %>
+  <h2>Add a comment:</h2>
+  <%= render 'comments/form' %>
+</div>

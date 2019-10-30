@@ -10,9 +10,9 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_10_21_021722) do
+ActiveRecord::Schema.define(version: 2019_10_24_131850) do
 
-  create_table "articles", force: :cascade do |t|
+  create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "title"
     t.text "text"
     t.datetime "created_at", null: false
@@ -20,17 +20,27 @@ ActiveRecord::Schema.define(version: 2019_10_21_021722) do
     t.boolean "status", default: true
   end
 
-  create_table "comments", force: :cascade do |t|
+  create_table "ckeditor_assets", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.string "data_file_name", null: false
+    t.string "data_content_type"
+    t.integer "data_file_size"
+    t.string "type", limit: 30
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["type"], name: "index_ckeditor_assets_on_type"
+  end
+
+  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "commenter"
     t.text "body"
-    t.integer "article_id", null: false
+    t.bigint "article_id", null: false
     t.boolean "status", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["article_id"], name: "index_comments_on_article_id"
   end
 
-  create_table "permissions", force: :cascade do |t|
+  create_table "permissions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.string "action", null: false
     t.string "resource", null: false
@@ -39,9 +49,9 @@ ActiveRecord::Schema.define(version: 2019_10_21_021722) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "role_permissions", force: :cascade do |t|
-    t.integer "role_id", null: false
-    t.integer "permission_id", null: false
+  create_table "role_permissions", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "role_id", null: false
+    t.bigint "permission_id", null: false
     t.boolean "status", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -49,16 +59,16 @@ ActiveRecord::Schema.define(version: 2019_10_21_021722) do
     t.index ["role_id"], name: "index_role_permissions_on_role_id"
   end
 
-  create_table "roles", force: :cascade do |t|
+  create_table "roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "name", null: false
     t.boolean "status", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "user_roles", force: :cascade do |t|
-    t.integer "user_id", null: false
-    t.integer "role_id", null: false
+  create_table "user_roles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "role_id", null: false
     t.boolean "status", default: true
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -66,7 +76,7 @@ ActiveRecord::Schema.define(version: 2019_10_21_021722) do
     t.index ["user_id"], name: "index_user_roles_on_user_id"
   end
 
-  create_table "users", force: :cascade do |t|
+  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
@@ -78,4 +88,9 @@ ActiveRecord::Schema.define(version: 2019_10_21_021722) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "comments", "articles"
+  add_foreign_key "role_permissions", "permissions"
+  add_foreign_key "role_permissions", "roles"
+  add_foreign_key "user_roles", "roles"
+  add_foreign_key "user_roles", "users"
 end
