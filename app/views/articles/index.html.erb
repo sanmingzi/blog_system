@@ -1,7 +1,7 @@
 <div class="container center">
   <% @articles.each do |article| %>
     <div class="col-xs-12 col-md-12">
-      <a href="#" class="thumbnail">
+      <a href=<%= "articles/#{article.id}" %> class="thumbnail">
         <div style="height: 60px;">
           <h2><%= article.title.truncate(19) %></h2>
           <h6><%= article.created_at.strftime('%b %d, %Y') %></h6>
